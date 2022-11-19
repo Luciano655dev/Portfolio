@@ -12,7 +12,8 @@
     "axios": "^1.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "swiper": "^8.4.4"
+    "swiper": "^8.4.4",
+    "vanilla-tilt": "^1.7.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

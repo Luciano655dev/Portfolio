@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
 import axios from 'axios'
 
 import './App.css'
 import MainOne from './modules/mainOne'
 import MainTwo from './modules/mainTwo'
+import MainThree from './modules/mainThree'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -43,6 +43,7 @@ function App() {
     <div className="body">
       <MainOne userName={userName} userBio={userBio} userImg={userImg}></MainOne>
       <MainTwo repos={repos}></MainTwo>
+      <MainThree></MainThree>
       <h1>{errorMsg}</h1>
     </div>
   )
