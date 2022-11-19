@@ -5,6 +5,7 @@ import './App.css'
 import MainOne from './modules/mainOne'
 import MainTwo from './modules/mainTwo'
 import MainThree from './modules/mainThree'
+import Footer from './modules/footer'
 
 import VanillaTilt from 'vanilla-tilt'
 
@@ -20,8 +21,6 @@ function Tilt(props: any){
 }
 
 function App() {
-  const [count, setCount] = useState(0)
-
   const [userName, setUserName] = useState('')
   const [userImg, setUserImg] = useState('')
   const [userBio, setUserBio] = useState('')
@@ -54,10 +53,11 @@ function App() {
 
   return (
     <div className="body">
+      <h1>{errorMsg}</h1>
       <MainOne userName={userName} userBio={userBio} userImg={userImg} Tilt={Tilt}></MainOne>
       <MainTwo repos={repos}></MainTwo>
       <MainThree Tilt={Tilt}></MainThree>
-      <h1>{errorMsg}</h1>
+      <Footer></Footer>
     </div>
   )
 }
