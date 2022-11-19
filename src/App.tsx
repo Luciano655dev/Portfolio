@@ -1,10 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
 import './App.css'
 import MainOne from './modules/mainOne'
 import MainTwo from './modules/mainTwo'
 import MainThree from './modules/mainThree'
+
+import VanillaTilt from 'vanilla-tilt'
+
+function Tilt(props: any){
+  const { options, ...rest} = props
+  const tilt = useRef(null)
+
+  useEffect(()=>{
+      VanillaTilt.init(tilt.current, options)
+  }, [options])
+
+  return <div ref={tilt} {...rest}/>
+}
 
 function App() {
   const [count, setCount] = useState(0)
@@ -41,9 +54,9 @@ function App() {
 
   return (
     <div className="body">
-      <MainOne userName={userName} userBio={userBio} userImg={userImg}></MainOne>
+      <MainOne userName={userName} userBio={userBio} userImg={userImg} Tilt={Tilt}></MainOne>
       <MainTwo repos={repos}></MainTwo>
-      <MainThree></MainThree>
+      <MainThree Tilt={Tilt}></MainThree>
       <h1>{errorMsg}</h1>
     </div>
   )

@@ -1,10 +1,15 @@
 import './mainOne.css'
 
 export default function mainOne(props: any){
+    const options = {
+        speed: 100,
+        max: 4
+    }
+    const { Tilt } = props
     
     return(
         <div className="mainOne">
-                <div className="card">
+                <Tilt className="card" options={options}>
                     <div className="profilePic">
                         <img src={props.userImg}/>
                     </div>
@@ -19,7 +24,7 @@ export default function mainOne(props: any){
                             <a href="#footer">Contact</a>
                         </div>
                     </div>
-                </div>
+                </Tilt>
         </div>
     )
 }
