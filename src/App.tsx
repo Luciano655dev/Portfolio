@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
 import './App.css'
-import MainOne from './modules/mainOne'
-import MainTwo from './modules/mainTwo'
-import MainThree from './modules/mainThree'
-import Footer from './modules/footer'
+import MainOne from './modules/mainOne/mainOne'
+import MainTwo from './modules/mainTwo/mainTwo'
+import MainThree from './modules/mainThree/mainThree'
+import Footer from './modules/footer/footer'
 
+import './modules/bubble/bubble.css'
 import VanillaTilt from 'vanilla-tilt'
 
 function Tilt(props: any){
@@ -20,10 +21,9 @@ function Tilt(props: any){
   return <div ref={tilt} {...rest}/>
 }
 
-function App() {
-  const [userName, setUserName] = useState('')
-  const [userImg, setUserImg] = useState('')
-  const [userBio, setUserBio] = useState('')
+export function App() {
+  const [userInfo, setUserInfo] = useState({})
+
   const [errorMsg, setErrorMsg] = useState('')
 
   const [repos, setRepos] = useState([])
@@ -36,9 +36,11 @@ function App() {
   function getApiGit(){
     axios.get('https://api.github.com/users/luciano655dev')
     .then(r=>{
-      setUserName(r.data.login)
-      setUserBio(r.data.bio)
-      setUserImg(r.data.avatar_url)
+      setUserInfo({
+        name: r.data.name,
+        bio: r.data.bio,
+        img: r.data.avatar_url
+      })
     })
     .catch(err=>{ setErrorMsg(err); console.log(err) })
   }
@@ -54,12 +56,10 @@ function App() {
   return (
     <div className="body">
       <h1>{errorMsg}</h1>
-      <MainOne userName={userName} userBio={userBio} userImg={userImg} Tilt={Tilt}></MainOne>
+      <MainOne userInfo={userInfo} Tilt={Tilt}></MainOne>
       <MainTwo repos={repos}></MainTwo>
       <MainThree Tilt={Tilt}></MainThree>
       <Footer></Footer>
     </div>
   )
 }
-
-export default App

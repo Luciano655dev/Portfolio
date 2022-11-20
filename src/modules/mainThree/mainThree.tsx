@@ -1,5 +1,11 @@
 import './mainThree.css'
 
+// Bubble
+let cords: any = []
+let html: any = []
+for(let i=0; i<=20; i++) cords.push({ x: Math.round(Math.random() * (90 - 5) + 5), y: Math.round(Math.random() * (95 - 5) + 5), animDuration: Math.round(Math.random() * (5 - 3) + 3)})
+for(let i=1; i<=20; i++) html.push(<div className="bubble" style={{ left: `${cords[i].x}%`, top: `${cords[i].y}%`, backgroundColor: '#161623', animationDuration: `${cords[i].animDuration}s` }}></div>)
+
 export default function mainThree(props: any){
     const options = {
         speed: 1000,
@@ -9,6 +15,7 @@ export default function mainThree(props: any){
     const { Tilt } = props
     return (
         <div className="mainThree" id="mainThree">
+            {html.map((div: any)=>div)}
             <div className="socialContainer">
                 <Tilt className="socialCard" options={options}>
                     <div className="content">
