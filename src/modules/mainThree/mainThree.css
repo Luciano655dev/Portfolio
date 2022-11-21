@@ -72,10 +72,6 @@
   }
 
   @media screen and (max-width: 1000px) {
-    .swiper-slide{
-      width: 80%;
-      height: 75vh;
-    }
     .socialContainer .socialCard{
       height: 15vh;
       margin: 10px;

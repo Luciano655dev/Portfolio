@@ -15,7 +15,7 @@ export default function mainOne(props: any){
     const { name, bio, img } = userInfo
     
     return(
-        <div className="mainOne">s
+        <div className="mainOne">
             {html.map((div: any)=>div)}
                 <Tilt className="card" options={options}>
                     <div className="profilePic">

@@ -10,24 +10,22 @@ for(let i=0; i<=20; i++) cords.push({ x: Math.round(Math.random() * (90 - 5) + 5
 for(let i=1; i<=20; i++) html.push(<div className="bubble" style={{ left: `${cords[i].x}%`, top: `${cords[i].y}%`, backgroundColor: 'white', animationDuration: `${cords[i].animDuration}s` }}></div>)
 
 export default function mainTwo(props: any){
+    const arr1 = [], arr2 = []
+    for(let i=0; i<props.repos.length; i++){
+        i <= Math.round(props.repos.length)/2?
+            arr1.push(props.repos[i]):
+            arr2.push(props.repos[i])
+    }
+    console.log(arr1)
+    console.log(arr2)
+    
+
     return(
         <div className="mainTwo" id="mainTwo">
             {html.map((div: any)=>div)}
-            <Swiper
-            effect={'coverflow'}
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView={'auto'}
-            coverflowEffect={{
-                rotate: 0,
-                stretch: 0,
-                depth: 10,
-                modifier: 1.5,
-                slideShadows: true
-            }}
-            >
-                <div>
-                    {props.repos.map((repo: any)=>{
+
+            <Swiper centeredSlides={true} slidesPerView={'auto'} s>
+                    {arr1.map((repo: any)=>{
                         return (
                             <SwiperSlide key={Math.random()}>
                                 <h1>{repo.name}</h1>
@@ -36,11 +34,18 @@ export default function mainTwo(props: any){
                             </SwiperSlide>
                         )
                     })}
-
-                <SwiperSlide>
-                    <h1 className="commingSoon"></h1>
-                </SwiperSlide>
-                </div>
+            </Swiper>
+            <h1 className='reposTitle'>Repositórios</h1>
+            <Swiper centeredSlides={true} slidesPerView={'auto'} s>
+                    {arr2.map((repo: any)=>{
+                        return (
+                            <SwiperSlide key={Math.random()}>
+                                <h1>{repo.name}</h1>
+                                <h3>{repo.description}</h3>
+                                <a href={repo.html_url}>Access here</a>
+                            </SwiperSlide>
+                        )
+                    })}
             </Swiper>
         </div>
     )
