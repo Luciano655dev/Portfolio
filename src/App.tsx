@@ -12,7 +12,7 @@ import VanillaTilt from 'vanilla-tilt'
 
 function Tilt(props: any){
   const { options, ...rest} = props
-  const tilt = useRef(null)
+  const tilt: any = useRef(null)
 
   useEffect(()=>{
       VanillaTilt.init(tilt.current, options)

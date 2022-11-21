@@ -24,7 +24,7 @@ export default function mainTwo(props: any){
         <div className="mainTwo" id="mainTwo">
             {html.map((div: any)=>div)}
 
-            <Swiper centeredSlides={true} slidesPerView={'auto'} s>
+            <Swiper centeredSlides={true} slidesPerView={'auto'}>
                     {arr1.map((repo: any)=>{
                         return (
                             <SwiperSlide key={Math.random()}>
@@ -36,7 +36,7 @@ export default function mainTwo(props: any){
                     })}
             </Swiper>
             <h1 className='reposTitle'>Repositórios</h1>
-            <Swiper centeredSlides={true} slidesPerView={'auto'} s>
+            <Swiper centeredSlides={true} slidesPerView={'auto'}>
                     {arr2.map((repo: any)=>{
                         return (
                             <SwiperSlide key={Math.random()}>
