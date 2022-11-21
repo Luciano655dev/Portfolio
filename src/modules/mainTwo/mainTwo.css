@@ -53,6 +53,9 @@
 
   @media screen and (max-width: 500px) {
     .swiper-slide {
-      width: 25rem;
+      width: 20rem;
+    }
+    .swiper-slide h1{
+      font-size: 3vh;
     }
   }

@@ -37,11 +37,7 @@ footer{
 
   @media screen and (max-width: 500px) {
     footer .contact p{
-      margin: 10px;
-      font-size: 0.8rem;
-    }
-    footer .contact{
-      top: 0;
-      margin-top: 5px;
+      margin: 3px;
+      font-size: 0.7rem;
     }
   }

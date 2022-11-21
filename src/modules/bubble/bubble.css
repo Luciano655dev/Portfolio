@@ -16,3 +16,9 @@
     overflow: hidden;
     animation: bubbleAnim 4s infinite;
   }
+
+  @media screen and (max-width: 500px) {
+    .bubble{
+      display: none;
+    }
+  }
