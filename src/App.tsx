@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
+// App Css
 import './App.css'
-import MainOne from './modules/mainOne/mainOne'
-import MainTwo from './modules/mainTwo/mainTwo'
-import MainThree from './modules/mainThree/mainThree'
-import Footer from './modules/footer/footer'
 
-import './modules/bubble/bubble.css'
+// Components
+import MainOne from './components/mainOne/mainOne'
+import MainTwo from './components/mainTwo/mainTwo'
+import MainThree from './components/mainThree/mainThree'
+import Footer from './components/footer/footer'
+
+import './components/bubble/bubble.css'
 import VanillaTilt from 'vanilla-tilt'
 
 function Tilt(props: any){
@@ -58,7 +61,6 @@ export function App() {
       <h1>{errorMsg}</h1>
       <MainOne userInfo={userInfo} Tilt={Tilt}></MainOne>
       <MainTwo repos={repos}></MainTwo>
-      <MainThree Tilt={Tilt}></MainThree>
       <Footer></Footer>
     </div>
   )
