@@ -1,14 +1,12 @@
 # Portfolio
 
-<!---Esses são exemplos. Veja https://shields.io para outras pessoas ou para personalizar este conjunto de escudos. Você pode querer incluir dependências, status do projeto e informações de licença aqui--->
-
 ![GitHub repo size](https://img.shields.io/github/repo-size/luciano655dev/Portfolio?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/luciano655dev/Portfolio?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/luciano655dev/Portfolio?style=for-the-badge)
 ![Bitbucket open issues](https://img.shields.io/bitbucket/issues/luciano655dev/Portfolio?style=for-the-badge)
 ![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/luciano655dev/Portfolio?style=for-the-badge)
 
-![image](https://user-images.githubusercontent.com/83819836/203515341-c54c63d0-f31f-4ead-87fe-6de8308a8de4.png)
+![image](https://user-images.githubusercontent.com/83819836/211684305-aedd2844-d943-469b-9a71-313445c2e906.png)
 
 > Um Portfolio feito em React que utiliza a API do GitHub
 
@@ -16,8 +14,8 @@
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [ ] Estilização dos links e repos
-- [ ] Responsividade
+- [x] Estilização dos links e repos
+- [x] Responsividade
 - [ ] ScrollReveal
 - [ ] Novas abas
 
