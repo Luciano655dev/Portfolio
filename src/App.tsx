@@ -5,9 +5,9 @@ import axios from 'axios'
 import './App.css'
 
 // Components
-import MainOne from './components/mainOne/mainOne'
-import MainTwo from './components/mainTwo/mainTwo'
-import MainThree from './components/mainThree/mainThree'
+import MainOne from './components/mainSection/mainOne'
+import MainTwo from './components/projectsSection/mainTwo'
+import MainThree from './components/socialSection/mainThree'
 import Footer from './components/footer/footer'
 
 import './components/bubble/bubble.css'
