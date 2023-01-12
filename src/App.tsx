@@ -61,6 +61,7 @@ export function App() {
       <h1>{errorMsg}</h1>
       <MainOne userInfo={userInfo} Tilt={Tilt}></MainOne>
       <MainTwo repos={repos}></MainTwo>
+      <MainThree Tilt={Tilt}></MainThree>
       <Footer></Footer>
     </div>
   )

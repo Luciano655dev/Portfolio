@@ -4,7 +4,7 @@ export const MainTwo = styled.div`
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #12121b;
+    background-color: white;
   
     width: 100%;
     height: 100%;
@@ -14,40 +14,19 @@ export const MainTwo = styled.div`
     align-items: center;
     overflow: hidden;
 `
-
-export const Title = styled.h1`
-  font-size: 4vh;
-  margin: 1.5%;
-  z-index: 1;
-  color: white;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: #12121b;
-`
-
-export const Swiper = styled.div`
+/* #12121b */
+export const Container = styled.div`
     display: flex;
     flex-direction: row;
-    overflow-x: auto;
     max-width: 100%;
-
-    &::-webkit-scrollbar {
-      height: 5px;
-      background: #1b1b20;
-      border-radius: 15px;
-      margin-top: 10px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: white;
-      border-radius: 20px;
-      border: 1px solid black;
-    }
 
     div{
       background-color: white;
       border-radius: 10px;
-      height: 40vh;
-      width: 50rem;
+      height: 60vh;
+      width: 40rem;
       margin-left: 3%;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     
       display: flex;
       flex-direction: column;
@@ -56,10 +35,6 @@ export const Swiper = styled.div`
       text-align: center;
 
       z-index: 3;
-
-      flex-shrink: 0;
-      position: relative;
-      transition-property: transform;
     }
     div h1{
       margin: 10px;
