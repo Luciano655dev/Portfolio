@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
-// App Css
-import './App.css'
-
 // Components
-import MainOne from './components/mainSection/mainOne'
-import MainTwo from './components/projectsSection/mainTwo'
-import MainThree from './components/socialSection/mainThree'
-import Footer from './components/footer/footer'
+import MainSec from './components/mainSection/main'
+import ProjetcSec from './components/projectsSection/main'
+import SocialSec from './components/socialSection/main'
+import Footer from './components/footer/main'
 
 import './components/bubble/bubble.css'
 import VanillaTilt from 'vanilla-tilt'
@@ -54,15 +51,29 @@ export function App() {
       setRepos(r.data)
     })
   }
-  
+
 
   return (
     <div className="body">
+      {html.map((div: any)=>div)}
       <h1>{errorMsg}</h1>
-      <MainOne userInfo={userInfo} Tilt={Tilt}></MainOne>
-      <MainTwo repos={repos}></MainTwo>
-      <MainThree Tilt={Tilt}></MainThree>
+      <MainSec userInfo={userInfo} Tilt={Tilt}></MainSec>
+      <ProjetcSec repos={repos}></ProjetcSec>
+      <SocialSec Tilt={Tilt}></SocialSec>
       <Footer></Footer>
     </div>
   )
+}
+
+// Bubbles
+const { innerWidth: width } = window
+let html: any = []
+let times: any = [{min: 5, max: 95}, {min: 105, max: 195}, {min: 205, max: 295}]
+
+for(let t in times){
+  let cords: any = []
+  const qnt = width<=500?10:20
+  
+  for(let i=0; i<=qnt; i++) cords.push({ x: Math.round(Math.random() * (90 - 5) + 5), y: Math.round(Math.random() * (times[t].max - times[t].min) + times[t].min), animDuration: Math.round(Math.random() * (5 - 3) + 3)})
+  for(let i=1; i<=qnt; i++) html.push(<div className="bubble" style={{ left: `${cords[i].x}%`, top: `${cords[i].y}%`, backgroundColor: '#161623', animationDuration: `${cords[i].animDuration}s` }}></div>)
 }

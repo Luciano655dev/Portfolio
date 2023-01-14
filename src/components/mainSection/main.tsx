@@ -1,12 +1,4 @@
-import { MainOne, Card, ProfilePic, Info, Buttons } from './styleOne.js'
-
-// Bubble
-const { innerWidth: width } = window
-const qnt = width<=500?10:20
-let cords: any = []
-let html: any = []
-for(let i=0; i<=qnt; i++) cords.push({ x: Math.round(Math.random() * (90 - 5) + 5), y: Math.round(Math.random() * (95 - 5) + 5), animDuration: Math.round(Math.random() * (5 - 3) + 3)})
-for(let i=1; i<=qnt; i++) html.push(<div className="bubble" style={{ left: `${cords[i].x}%`, top: `${cords[i].y}%`, backgroundColor: '#161623', animationDuration: `${cords[i].animDuration}s` }}></div>)
+import { MainOne, Card, ProfilePic, Info, Buttons } from './style.js'
 
 export default function mainOne(props: any){
     const options = {
@@ -32,7 +24,6 @@ export default function mainOne(props: any){
     
     return(
         <MainOne>
-            {html.map((div: any)=>div)}
                 <Tilt style={tiltStyle} options={options}>
                     <Card>
                         <ProfilePic>

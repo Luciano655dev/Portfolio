@@ -1,5 +1,5 @@
 import 'swiper/css'
-import { MainTwo, Container } from './styleTwo.js'
+import { MainTwo, Container } from './style.js'
 
 export default function mainTwo(props: any){
     return(

@@ -14,5 +14,6 @@
     height: 30px;
     border-radius: 15px;
     overflow: hidden;
+    z-index: -1;
     animation: bubbleAnim 4s infinite;
   }

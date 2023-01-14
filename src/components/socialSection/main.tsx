@@ -1,4 +1,4 @@
-import { MainThree, Container, Card, CardContent } from './styleThree.js'
+import { MainThree, Container, Card, CardContent } from './style.js'
 
 export default function mainThree(props: any){
     const options = {
