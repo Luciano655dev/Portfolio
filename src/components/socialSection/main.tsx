@@ -1,4 +1,4 @@
-import { MainThree, Container, Card, CardContent } from './style.js'
+import { MainThree, Container, Card, CardContent } from './style'
 
 export default function mainThree(props: any){
     const options = {
@@ -20,7 +20,7 @@ export default function mainThree(props: any){
         alignItems: 'center',
     }
     return (
-        <MainThree id="mainThree">
+        <MainThree id="social">
             <Container>
                 <Card>
                     <Tilt style={tiltStyle} options={options}>

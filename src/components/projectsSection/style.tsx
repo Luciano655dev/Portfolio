@@ -13,11 +13,16 @@ export const MainTwo = styled.div`
 export const Container = styled.div`
     display: flex;
     flex-direction: row;
+    overflow-x: scroll;
+    &::-webkit-scrollbar {
+      width: 0 !important
+    }
 
     div{
       background-color: white;
       border-radius: 10px;
       width: 30vw;
+      min-width: 20rem;
       height: 70vh;
       margin: 30px;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -32,7 +37,7 @@ export const Container = styled.div`
     }
     div h1{
       margin: 10px;
-      font-size: 4vh;
+      font-size: 3vh;
     }
     div h3{
       margin: 3vh;

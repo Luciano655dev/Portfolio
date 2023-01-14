@@ -23,7 +23,7 @@ export default function mainOne(props: any){
     }
     
     return(
-        <MainOne>
+        <MainOne id='home'>
                 <Tilt style={tiltStyle} options={options}>
                     <Card>
                         <ProfilePic>
@@ -34,10 +34,10 @@ export default function mainOne(props: any){
                             <h1 className="title">{name}'s portfolio</h1>
                             <h3>{bio}</h3>
                             <Buttons>
-                                <a href="#mainOne">Home</a>
-                                <a href="#mainTwo">Projects</a>
-                                <a href="#mainThree">Social</a>
-                                <a href="#footer">Contact</a>
+                                <a href="#home">Home</a>
+                                <a href="#projects">Projects</a>
+                                <a href="#social">Social</a>
+                                <a href="#contact">Contact</a>
                             </Buttons>
                         </Info>
                     </Card>
