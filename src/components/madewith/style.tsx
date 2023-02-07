@@ -8,46 +8,48 @@ export const Body = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    background-color: ghostwhite;
 
     h1{
         font-size: 6vh;
         margin: 2vw;
         padding: 3vh;
         padding-bottom: 5vh;
-
-        background-color: white;
-        border-radius: 15px;
     }
 
     div{
         display: flex;
         flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
         padding: 5vh;
         box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0px 0px 50px rgba(0, 0, 0, 0.2);
         background-color: white;
         border-radius: 15px;
-        max-width: 1200px;
+        max-width: 58vw;
     }
 
     @media screen and (max-width: 500px) {
         div{
-            flex-direction: column;
+            flex-direction: row;
             padding: 3vh;
         }
         h1{
-            font-size: 7vw;
-            margin: 4vw;
+            font-size: 10vw;
+            margin: 2vw;
+            padding: 3vh;
         }
     }
 `
 
 
 export const Icon = styled.img`
-    width: 20vw;
+    width: 10vw;
     padding: 2vw;
 
     @media screen and (max-width: 500px) {
         padding-top: 5vw;
-        width: 30vw;
+        width: 20vw;
     }
 `

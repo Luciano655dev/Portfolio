@@ -24,7 +24,7 @@ export const Card = styled.div`
     text-align: center;
 
     @media screen and (max-width: 500px) {
-      width: 80%;
+      width: 85vw;
     }
 `
 
@@ -79,7 +79,7 @@ export const Buttons = styled.div`
 
     a {
       padding: 0.5rem 2rem;
-      width: 4vw;
+      width: 5vw;
       background: none;
       border: none;
       box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
@@ -109,7 +109,7 @@ export const Buttons = styled.div`
 
     @media screen and (max-width: 500px) {
     a{
-      width: 2.5rem;
+      width: 3rem;
       font-size: 3vw;
     }
   }

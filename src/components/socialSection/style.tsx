@@ -6,6 +6,7 @@ export const MainThree = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: ghostwhite;
 `
 
 export const Container = styled.div`
@@ -45,12 +46,9 @@ export const Card = styled.div`
     }
 
     @media screen and (max-width: 1000px) {
-      height: 15vh;
-      margin: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      height: 17vh;
+      margin: 1vh;
+      width: 90vw;
     }
 `
 

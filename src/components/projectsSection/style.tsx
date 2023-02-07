@@ -14,12 +14,14 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
-    &::-webkit-scrollbar {
-      width: 0 !important
+
+    &:hover {
+      transition: 1s;
     }
 
     div{
       background-color: white;
+      z-index: 10;
       border-radius: 10px;
       width: 30vw;
       min-width: 20rem;
@@ -60,24 +62,5 @@ export const Container = styled.div`
 
       margin: 0.2vw;
       transition: 0.5s;
-    }
-    div a:hover {
-      background: #161623;
-      color: white;
-    }
-    div a:active{
-      transform: translateY(-2px);
-    }
-
-    @media screen and (max-width: 500px) {
-      div {
-        width: 20rem;
-      }
-      div h1{
-        font-size: 3vh;
-      }
-      div h3{
-        max-width: 20rem;
-      }
     }
 `

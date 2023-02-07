@@ -68,9 +68,11 @@ export function App() {
 }
 
 // Bubbles
+
 const { innerWidth: width } = window
 let html: any = []
-let times: any = [{min: 5, max: 95}, {min: 105, max: 195}, {min: 205, max: 295}, {min: 305, max: 395}]
+let times: any = [{min: 5, max: 95}]
+// , {min: 105, max: 195}, {min: 205, max: 295}, {min: 305, max: 395}
 
 for(let t in times){
   let cords: any = []
