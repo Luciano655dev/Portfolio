@@ -20,9 +20,8 @@ export const Container = styled.div`
     }
 
     div{
-      background-color: white;
-      z-index: 10;
-      border-radius: 10px;
+      background-color: #f7f7f8;
+      border-radius: 3px;
       width: 30vw;
       min-width: 20rem;
       height: 70vh;

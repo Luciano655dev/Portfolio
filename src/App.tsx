@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Components
 import MainSec from './components/mainSection/main'
-import MadeWithSec from './components/madewith/main'
+import SkillsSec from './components/skillsSection/main'
 import ProjetcSec from './components/projectsSection/main'
 import SocialSec from './components/socialSection/main'
 import Footer from './components/footer/main'
@@ -47,7 +47,7 @@ export function App() {
   }
 
   function getApiRepos(){
-    axios.get('https://api.github.com/users/Luciano655dev/repos')
+    axios.get('https://api.github.com/users/Luciano655dev/repos?sort=recent')
     .then(r=>{
       setRepos(r.data)
     })
@@ -59,7 +59,7 @@ export function App() {
       {html.map((div: any)=>div)}
       <h1>{errorMsg}</h1>
       <MainSec userInfo={userInfo} Tilt={Tilt}></MainSec>
-      <MadeWithSec></MadeWithSec>
+      <SkillsSec></SkillsSec>
       <ProjetcSec repos={repos}></ProjetcSec>
       <SocialSec Tilt={Tilt}></SocialSec>
       <Footer></Footer>

@@ -11,7 +11,7 @@ export default function mainTwo(props: any){
                                 <div key={Math.random()}>
                                     <h1>{repo.name}</h1>
                                     <h3>{repo.description}</h3>
-                                    <a href={repo.html_url}>Access here</a>
+                                    <a>{repo.html_url}</a>
                                 </div>
                             )
                         })
