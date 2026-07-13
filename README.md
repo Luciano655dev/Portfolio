@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# luciano-website
 
-## Getting Started
+My personal portfolio — a single-page site that introduces who I am, the products I've founded, and the work I keep shipping. The open-source section is **live from the GitHub API**, so the site keeps itself up to date as I push new repositories.
 
-First, run the development server:
+**Live:** [luciano655dev.netlify.app](https://luciano655dev.netlify.app) · **Me:** [@Luciano655dev](https://github.com/Luciano655dev)
+
+---
+
+## Highlights
+
+- **Self-updating.** Profile stats and the open-source grid are pulled from the GitHub REST API, so no manual editing is needed when a repo changes.
+- **Motion by default, motion by choice.** Scroll reveals, a masked hero headline, an animated marquee, count-up stats, magnetic buttons, a parallax heading, a scroll-progress bar, and a custom cursor — all of it disabled under `prefers-reduced-motion: reduce`.
+- **Server-first.** The page is a React Server Component; only the interactive bits ship JavaScript to the browser.
+- **Resilient.** If GitHub is down or rate-limits the request, the page falls back to a committed snapshot instead of rendering empty.
+
+## Tech stack
+
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| UI | React 19 |
+| Styling | Tailwind CSS v4 |
+| Language | TypeScript |
+| Data | GitHub REST API |
+| Fonts | Geist, Geist Mono, Instrument Serif (`next/font`) |
+
+## Getting started
+
+Requires **Node 20.9+**.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm start       # serve the production build
+npm run lint    # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+No environment variables are needed — the site calls GitHub's public, unauthenticated API.
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── layout.tsx      # fonts, metadata, scroll progress bar, custom cursor
+│   ├── page.tsx        # the whole page + its content (see "Making it yours")
+│   └── globals.css     # theme tokens, animation keyframes, reduced-motion rules
+├── components/         # small client components, one animation each
+│   ├── Reveal.tsx      # scroll-triggered entrance (up / left / right / scale / blur)
+│   ├── CountUp.tsx     # animates a number when it scrolls into view
+│   ├── Magnetic.tsx    # element leans toward the cursor
+│   ├── Parallax.tsx    # gentle scroll-linked offset
+│   ├── ScrollProgress.tsx
+│   ├── Cursor.tsx      # dot + trailing ring (fine pointers only)
+│   └── LocalTime.tsx   # my local clock, client-rendered to avoid hydration mismatch
+└── lib/
+    └── github.ts       # GitHub fetching, fallback snapshot, date helpers
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How the GitHub data works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`src/lib/github.ts` fetches the profile and repository list for the user in `USERNAME`, and Next caches the responses for an hour (`next: { revalidate: 3600 }`). Featured projects are excluded from the open-source grid, forks and description-less repos are filtered out, and the rest are sorted most-recently-updated first.
 
-## Deploy on Vercel
+Every fetch is wrapped so that a failure — rate limit, outage, offline build — returns `FALLBACK_PROFILE` / `FALLBACK_REPOS` rather than throwing. The page therefore always renders complete, just occasionally with slightly stale numbers.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Making it yours
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Nearly all the content lives at the top of `src/app/page.tsx` as plain arrays:
+
+- `FEATURED` — the flagship projects, with role, description, stack and links
+- `TIMELINE` — career milestones
+- `SKILLS` — grouped skills and languages
+- `MARQUEE_ITEMS` — the words in the scrolling banner
+
+Beyond that: set `USERNAME` in `src/lib/github.ts`, and restyle by editing the CSS custom properties (`--background`, `--foreground`, `--accent`, …) at the top of `src/app/globals.css`.
+
+> **A note on styling:** the base element styles in `globals.css` live inside `@layer base`. Keep them there. Tailwind v4 puts its utilities in `@layer utilities`, and *unlayered* CSS overrides every layered rule regardless of specificity — so an unlayered `a { color: … }` will silently defeat `text-muted` and friends.
+
+## Accessibility
+
+Motion is treated as an enhancement. Every animation is gated behind `prefers-reduced-motion`, either in CSS or by bailing out of the effect in JavaScript, and the custom cursor only activates for fine pointers so touch and keyboard users keep the native one.
+
+## Deployment
+
+It's a stock Next.js app and deploys as-is to any Node host — Vercel, Netlify, or your own server via `npm run build && npm start`. The only external network dependencies are `api.github.com` and `avatars.githubusercontent.com`, the latter allow-listed for `next/image` in `next.config.ts`.
+
+## License
+
+The **code** is MIT licensed — see [LICENSE](./LICENSE). Take the components, the animation system, the layout, whatever is useful.
+
+The **content** is not: my name, likeness, biography, project write-ups and career history are mine. If you build on this, please swap in your own story rather than shipping mine with a new name on it.

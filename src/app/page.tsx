@@ -1,65 +1,669 @@
 import Image from "next/image";
+import CountUp from "@/components/CountUp";
+import LocalTime from "@/components/LocalTime";
+import Magnetic from "@/components/Magnetic";
+import Parallax from "@/components/Parallax";
+import Reveal from "@/components/Reveal";
+import {
+  getProfile,
+  getRepos,
+  timeAgo,
+  yearsOnGitHub,
+  type Repo,
+} from "@/lib/github";
 
-export default function Home() {
+const GITHUB_URL = "https://github.com/Luciano655dev";
+const EMAIL = "lucianomenezes655@gmail.com";
+
+const FEATURED = [
+  {
+    repo: "daykeeper.app",
+    title: "Daykeeper",
+    role: "Founder · Design · Fullstack",
+    description:
+      "A journal-style social and calendar platform that turns days into memories. Web app, public API and docs, all built and shipped from scratch.",
+    stack: ["TypeScript", "React", "Node.js", "MongoDB"],
+    links: [
+      { label: "Live site", url: "https://daykeeper.app" },
+      { label: "API", url: "https://api.daykeeper.app" },
+      { label: "Docs", url: "https://docs.daykeeper.app" },
+      { label: "Source", url: `${GITHUB_URL}/daykeeper.app` },
+    ],
+  },
+  {
+    repo: "HobbyASAP",
+    title: "HobbyASAP",
+    role: "Founder · Fullstack",
+    description:
+      "An AI-powered platform that helps people learn any hobby as fast as possible, generating structured learning paths from a single prompt.",
+    stack: ["TypeScript", "Next.js", "AI"],
+    links: [
+      { label: "Live site", url: "https://hobbyasap.com" },
+      { label: "Source", url: `${GITHUB_URL}/HobbyASAP` },
+    ],
+  },
+  {
+    repo: "OneMoreGood",
+    title: "OneMoreGood",
+    role: "Founder · Fullstack",
+    description:
+      "A non-profit e-commerce that fundraises for small organizations in Brazil — starting with Santa Terezinha, Paraíba — by selling socks.",
+    stack: ["TypeScript", "Next.js", "E-commerce"],
+    links: [
+      { label: "Live site", url: "https://onemoregood.org" },
+      { label: "Source", url: `${GITHUB_URL}/OneMoreGood` },
+    ],
+  },
+] as const;
+
+// Career milestones — edit freely: add internships, jobs, awards, moves.
+const TIMELINE = [
+  {
+    year: "2018–2019",
+    title: "Starting with games",
+    description:
+      "Began learning programming at Super Geeks, where I built games, joined game jams, and participated in local competitions.",
+  },
+  {
+    year: "2020–2021",
+    title: "Building independently",
+    description:
+      "Started creating games on my own, explored web development, and began sharing personal projects on GitHub.",
+  },
+  {
+    year: "2022–2023",
+    title: "From projects to freelance",
+    description:
+      "Built websites, solved coding challenges, worked on personal projects, and started freelancing for real clients, including websites and a game for a small church.",
+  },
+  {
+    year: "2024",
+    title: "Building Daykeeper",
+    description:
+      "Started creating Daykeeper from scratch, my most complex project to date, while moving from Paraíba, Brazil to Orlando, Florida and beginning high school at Windermere Preparatory School.",
+  },
+  {
+    year: "2025–2026",
+    title: "Software, startups, and college",
+    description:
+      "Interned at Phoebus Tecnologia during both summers, continued expanding my portfolio with projects like OneMoreGood and HobbyASAP, and entered senior year while applying to top universities for computer science.",
+  },
+] as const;
+
+const SKILLS = [
+  {
+    group: "Languages",
+    items: [
+      "TypeScript",
+      "JavaScript",
+      "Python",
+      "HTML/CSS",
+      "SQL",
+    ],
+  },
+  {
+    group: "Frontend",
+    items: [
+      "React",
+      "Next.js",
+      "React Native"
+    ],
+  },
+  {
+    group: "Backend",
+    items: [
+      "Node.js",
+      "Express.js",
+      "Redis",
+      "RESTful APIs",
+      "Authentication",
+      "Scalability",
+    ],
+  },
+  {
+    group: "Databases & Storage",
+    items: [
+      "MongoDB",
+      "PostgreSQL",
+      "MySQL",
+      "Supabase",
+      "Mongoose",
+      "AWS S3",
+    ],
+  },
+  {
+    group: "Spoken",
+    items: [
+      "Portuguese (native)",
+      "English (fluent)",
+      "Spanish (basic)",
+    ],
+  },
+] as const;
+
+const MARQUEE_ITEMS = [
+  "Daykeeper",
+  "HobbyASAP",
+  "OneMoreGood",
+  "TypeScript",
+  "React",
+  "Next.js",
+  "Node.js",
+  "Python",
+  "MongoDB",
+  "PostgreSQL",
+];
+
+const LANGUAGE_COLORS: Record<string, string> = {
+  TypeScript: "#3178c6",
+  JavaScript: "#f1e05a",
+  Python: "#3572a5",
+  HTML: "#e34c26",
+  CSS: "#663399",
+};
+
+function MonoLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+    <p className="font-mono text-xs tracking-[0.2em] uppercase text-muted">
+      {children}
+    </p>
+  );
+}
+
+function ExternalArrow() {
+  return (
+    <span
+      aria-hidden
+      className="inline-block transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+    >
+      ↗
+    </span>
+  );
+}
+
+function RepoCard({ repo }: { repo: Repo }) {
+  return (
+    <article className="group relative flex h-full flex-col justify-between gap-6 border border-line bg-surface/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-muted/60 hover:bg-surface">
+      <div>
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="text-lg font-medium break-words">
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href={repo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-reset transition-colors duration-300 after:absolute after:inset-0 group-hover:text-accent"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              {repo.name}
+            </a>
+          </h3>
+          <ExternalArrow />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {repo.description}
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 font-mono text-xs text-muted">
+        <span className="flex items-center gap-4">
+          {repo.language && (
+            <span className="flex items-center gap-1.5">
+              <span
+                className="size-2 rounded-full"
+                style={{
+                  background: LANGUAGE_COLORS[repo.language] ?? "var(--muted)",
+                }}
+              />
+              {repo.language}
+            </span>
+          )}
+          {repo.stars > 0 && <span>★ {repo.stars}</span>}
+          <span>{timeAgo(repo.updatedAt)}</span>
+        </span>
+        {repo.homepage && (
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href={repo.homepage}
             target="_blank"
             rel="noopener noreferrer"
+            className="link-underline relative z-10 text-accent"
           >
+            Live ↗
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}
+
+export default async function Home() {
+  const [profile, repos] = await Promise.all([getProfile(), getRepos()]);
+
+  const featuredNames = new Set<string>(FEATURED.map((f) => f.repo));
+  const openSource = repos
+    .filter(
+      (r) =>
+        !r.fork &&
+        r.description &&
+        !featuredNames.has(r.name) &&
+        r.name.toLowerCase() !== "luciano655dev",
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+    )
+    .slice(0, 9);
+
+  const years = yearsOnGitHub(profile.createdAt);
+  const stats = [
+    { value: years, suffix: "+", label: "years building" },
+    { value: profile.publicRepos, suffix: "", label: "public repositories" },
+    { value: profile.followers, suffix: "", label: "GitHub followers" },
+    { value: 3, suffix: "", label: "products in production" },
+  ];
+
+  return (
+    <main className="page-intro mx-auto w-full max-w-5xl px-6 sm:px-10">
+      {/* ── Nav ─────────────────────────────────────────────── */}
+      <header className="intro-fade flex items-center justify-between py-8">
+        <a href="#top" className="link-reset font-mono text-sm tracking-tight">
+          LM<span className="text-accent">.</span>
+        </a>
+        <nav className="flex items-center gap-6 font-mono text-xs uppercase tracking-widest text-muted">
+          <a
+            href="#work"
+            className="link-underline text-muted transition-colors hover:text-foreground"
+          >
+            Work
+          </a>
+          <a
+            href="#timeline"
+            className="link-underline hidden text-muted transition-colors hover:text-foreground sm:inline"
+          >
+            Timeline
+          </a>
+          <a
+            href="#about"
+            className="link-underline text-muted transition-colors hover:text-foreground"
+          >
+            About
+          </a>
+          <a
+            href="#contact"
+            className="link-underline text-muted transition-colors hover:text-foreground"
+          >
+            Contact
+          </a>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-underline hidden text-muted transition-colors hover:text-foreground sm:inline"
+          >
+            GitHub ↗
+          </a>
+        </nav>
+      </header>
+
+      {/* ── Hero ────────────────────────────────────────────── */}
+      <section id="top" className="flex min-h-[82svh] flex-col justify-center">
+        <Reveal effect="blur">
+          <div className="flex items-center gap-4">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={profile.avatarUrl}
+              alt={profile.name}
+              width={56}
+              height={56}
+              className="rounded-full border border-line transition-transform duration-300 hover:scale-110"
+              priority
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <div>
+              <p className="font-medium">{profile.name}</p>
+              <p className="font-mono text-xs uppercase tracking-widest text-muted">
+                Fullstack Developer — {profile.location}
+              </p>
+            </div>
+          </div>
+        </Reveal>
+        <h1 className="mt-10 text-[clamp(2.75rem,8vw,6rem)] font-medium leading-[1.02] tracking-tight">
+          <span className="mask-line">
+            <span style={{ "--d": "100ms" } as React.CSSProperties}>
+              Building{" "}
+              <em className="font-serif italic font-normal text-accent">
+                real products
+              </em>
+            </span>
+          </span>
+          <span className="mask-line">
+            <span style={{ "--d": "220ms" } as React.CSSProperties}>
+              from scratch.
+            </span>
+          </span>
+        </h1>
+        <Reveal delay={340}>
+          <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted">
+            I design, build and ship complete platforms — frontend, backend,
+            and everything in between. For me, technology is a means to reach
+            the goal you seek, especially when it helps people.
+          </p>
+        </Reveal>
+        <Reveal delay={460}>
+          <div className="mt-10 flex flex-wrap items-center gap-6 font-mono text-sm">
+            <Magnetic>
+              <a
+                href={`mailto:${EMAIL}`}
+                className="link-reset group inline-block border border-foreground/80 px-5 py-3 transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-background"
+              >
+                Get in touch <ExternalArrow />
+              </a>
+            </Magnetic>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group link-underline text-muted transition-colors hover:text-foreground"
+            >
+              GitHub <ExternalArrow />
+            </a>
+            <span className="text-muted">
+              Orlando, FL — <LocalTime /> local
+            </span>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── Marquee banner ──────────────────────────────────── */}
+      <div className="marquee -mx-6 border-y border-line py-5 sm:-mx-10">
+        <div className="marquee-track">
+          {[0, 1].map((copy) => (
+            <span key={copy} aria-hidden={copy === 1} className="flex shrink-0">
+              {MARQUEE_ITEMS.map((item) => (
+                <span
+                  key={item}
+                  className="mx-6 flex items-center gap-12 text-2xl font-medium tracking-tight text-muted"
+                >
+                  {item} <span className="text-accent">✦</span>
+                </span>
+              ))}
+            </span>
+          ))}
         </div>
-      </main>
-    </div>
+      </div>
+
+      {/* ── Stats ───────────────────────────────────────────── */}
+      <section className="border-b border-line py-12">
+        <dl className="grid grid-cols-2 gap-10 sm:grid-cols-4">
+          {stats.map((s, i) => (
+            <Reveal key={s.label} delay={i * 100} effect="scale">
+              <dd className="text-4xl font-medium tracking-tight">
+                <CountUp value={s.value} suffix={s.suffix} />
+              </dd>
+              <dt className="mt-2 font-mono text-xs uppercase tracking-widest text-muted">
+                {s.label}
+              </dt>
+            </Reveal>
+          ))}
+        </dl>
+      </section>
+
+      {/* ── Featured work ───────────────────────────────────── */}
+      <section id="work" className="py-24 sm:py-32">
+        <Reveal effect="left">
+          <MonoLabel>01 — Selected Work</MonoLabel>
+          <h2 className="mt-4 text-3xl font-medium tracking-tight sm:text-5xl">
+            Products I{" "}
+            <em className="font-serif italic font-normal text-accent">
+              founded
+            </em>{" "}
+            and run
+          </h2>
+        </Reveal>
+        <div className="mt-14">
+          {FEATURED.map((project, i) => (
+            <Reveal
+              key={project.title}
+              delay={i * 100}
+              effect={i % 2 === 0 ? "left" : "right"}
+            >
+              <article className="group relative grid gap-4 border-t border-line py-10 transition-colors duration-300 last:border-b hover:bg-surface/60 sm:grid-cols-[auto_1fr_auto] sm:gap-10">
+                <span className="font-mono text-sm text-muted transition-colors duration-300 group-hover:text-accent">
+                  0{i + 1}
+                </span>
+                <div>
+                  <h3 className="text-2xl font-medium tracking-tight sm:text-3xl">
+                    <a
+                      href={project.links[0].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-reset transition-colors duration-300 after:absolute after:inset-0 group-hover:text-accent"
+                    >
+                      {project.title}
+                    </a>
+                  </h3>
+                  <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted">
+                    {project.role}
+                  </p>
+                  <p className="mt-4 max-w-xl leading-relaxed text-muted">
+                    {project.description}
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {project.stack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="border border-line px-3 py-1 font-mono text-xs text-muted transition-colors duration-300 group-hover:border-muted/50"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="relative z-10 mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs">
+                    {project.links.map((link) => (
+                      <a
+                        key={link.label}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link-underline text-muted transition-colors hover:text-accent"
+                      >
+                        {link.label} ↗
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                <span className="justify-self-start font-mono text-xl text-muted transition-colors duration-300 group-hover:text-accent sm:justify-self-end">
+                  <ExternalArrow />
+                </span>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Open source ─────────────────────────────────────── */}
+      <section className="pb-24 sm:pb-32">
+        <Reveal effect="left">
+          <MonoLabel>02 — Open Source</MonoLabel>
+          <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+            <h2 className="text-3xl font-medium tracking-tight sm:text-5xl">
+              Fresh from the{" "}
+              <em className="font-serif italic font-normal text-accent">
+                workshop
+              </em>
+            </h2>
+            <a
+              href={`${GITHUB_URL}?tab=repositories`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group link-underline font-mono text-sm text-muted transition-colors hover:text-foreground"
+            >
+              All {profile.publicRepos} repositories <ExternalArrow />
+            </a>
+          </div>
+          <p className="mt-3 font-mono text-xs uppercase tracking-widest text-muted">
+            Most recently updated first — live from GitHub
+          </p>
+        </Reveal>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {openSource.map((repo, i) => (
+            <Reveal
+              key={repo.name}
+              delay={(i % 3) * 100}
+              effect="scale"
+              className="h-full"
+            >
+              <RepoCard repo={repo} />
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Timeline ────────────────────────────────────────── */}
+      <section id="timeline" className="border-t border-line py-24 sm:py-32">
+        <Reveal effect="left">
+          <MonoLabel>03 — Milestones</MonoLabel>
+          <h2 className="mt-4 text-3xl font-medium tracking-tight sm:text-5xl">
+            The road{" "}
+            <em className="font-serif italic font-normal text-accent">
+              so far
+            </em>
+          </h2>
+        </Reveal>
+        <ol className="relative mt-16 border-l border-line">
+          {TIMELINE.map((item, i) => (
+            <li key={item.year} className="relative pb-14 pl-8 last:pb-0 sm:pl-12">
+              <Reveal delay={i * 90} effect="left">
+                <span
+                  aria-hidden
+                  className="timeline-dot absolute top-1.5 size-2.5 rounded-full bg-accent"
+                  style={{ left: "calc(-0.3125rem - 0.5px)" }}
+                />
+                <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
+                  <span className="font-mono text-sm text-accent">
+                    {item.year}
+                  </span>
+                  <h3 className="text-xl font-medium tracking-tight sm:text-2xl">
+                    {item.title}
+                  </h3>
+                </div>
+                <p className="mt-3 max-w-xl leading-relaxed text-muted">
+                  {item.description}
+                </p>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ── About ───────────────────────────────────────────── */}
+      <section id="about" className="border-t border-line py-24 sm:py-32">
+        <div className="grid gap-12 sm:grid-cols-[1fr_2fr]">
+          <Reveal effect="left">
+            <MonoLabel>04 — About</MonoLabel>
+          </Reveal>
+          <div>
+<Reveal effect="blur">
+  <p className="text-2xl leading-snug tracking-tight sm:text-3xl">
+    I&apos;m a{" "}
+    <em className="font-serif italic text-accent">Brazilian</em>{" "}
+    full-stack developer based in Orlando, Florida, building products that turn
+    ideas into useful, real-world software.
+  </p>
+</Reveal>
+
+<Reveal delay={120}>
+  <p className="mt-8 max-w-xl leading-relaxed text-muted">
+    My work spans social platforms, e-commerce, AI experiments, freelance
+    websites, and full-stack products like Daykeeper.app, OneMoreGood.org, and
+    HobbyASAP.com. I am fluent in English and Portuguese, while also having a good Spanish understanding. I enjoy taking projects from concept to production, including
+    product design, APIs, databases, deployment, and documentation.
+  </p>
+</Reveal>
+            <dl className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+              {SKILLS.map((skill, i) => (
+                <Reveal key={skill.group} delay={i * 80} effect="up">
+                  <dt className="font-mono text-xs uppercase tracking-widest text-muted">
+                    {skill.group}
+                  </dt>
+                  <dd className="mt-3 flex flex-wrap gap-x-2 gap-y-1">
+                    {skill.items.map((item, j) => (
+                      <span key={item}>
+                        {item}
+                        {j < skill.items.length - 1 && (
+                          <span className="text-muted"> ·</span>
+                        )}
+                      </span>
+                    ))}
+                  </dd>
+                </Reveal>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact ─────────────────────────────────────────── */}
+      <section id="contact" className="border-t border-line py-24 sm:py-32">
+        <Reveal effect="blur">
+          <MonoLabel>05 — Contact</MonoLabel>
+          <Parallax speed={-0.05} maxOffset={28}>
+            <h2 className="mt-10 text-[clamp(2.25rem,6.5vw,5rem)] font-medium leading-tight tracking-tight">
+              Have a project in mind?
+              <br />
+              <a
+                href={`mailto:${EMAIL}`}
+                className="group font-serif italic font-normal text-accent underline decoration-1 underline-offset-8 transition-opacity hover:opacity-80"
+              >
+                Let&apos;s talk <ExternalArrow />
+              </a>
+            </h2>
+          </Parallax>
+        </Reveal>
+        <Reveal delay={150}>
+          <div className="mt-16 flex flex-wrap gap-x-8 gap-y-3 font-mono text-sm text-muted">
+            <a
+              href={`mailto:${EMAIL}`}
+              className="link-underline text-muted transition-colors hover:text-foreground"
+            >
+              {EMAIL}
+            </a>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline text-muted transition-colors hover:text-foreground"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://twitter.com/luciano655dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline text-muted transition-colors hover:text-foreground"
+            >
+              X / Twitter
+            </a>
+            <a
+              href="https://discord.com/users/luciano655"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline text-muted transition-colors hover:text-foreground"
+            >
+              Discord
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── Footer ──────────────────────────────────────────── */}
+      <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-line py-8 font-mono text-xs text-muted">
+        <span>© {new Date().getFullYear()} Luciano Menezes</span>
+        <span className="flex gap-6">
+          <span>Built with Next.js — data live from GitHub</span>
+          <a
+            href="#top"
+            className="link-underline text-muted transition-colors hover:text-foreground"
+          >
+            Back to top ↑
+          </a>
+        </span>
+      </footer>
+    </main>
   );
 }

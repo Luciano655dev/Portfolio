@@ -1,26 +1,289 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0b;
+  --foreground: #ececea;
+  --muted: #93938c;
+  --line: #222225;
+  --surface: #121214;
+  --accent: #c8f451;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Subtle film grain over the whole page */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
+}
+
+/* Base link styling lives in @layer base so Tailwind's utilities
+   (text-muted, py-3, …) still win over it. */
+@layer base {
+  a[href]:not(.link-reset),
+  a[href]:not(.link-reset):visited {
+    color: var(--accent);
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition:
+      color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    padding-bottom: 2px;
+  }
+
+  a[href]:not(.link-reset):is(:hover, :focus-visible) {
+    background-size: 100% 1px;
+  }
+
+  .link-reset {
+    color: inherit;
+    background-image: none;
+  }
+}
+
+/* ── Custom cursor ─────────────────────────────────────────── */
+@media (pointer: fine) {
+  body,
+  a,
+  button {
+    cursor: none;
+  }
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  transition: opacity 0.3s;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  transition: opacity 0.3s;
+}
+
+/* ── Scroll-in reveals, driven by the <Reveal> component ───── */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal--up {
+  transform: translateY(28px);
+}
+
+.reveal--left {
+  transform: translateX(-44px);
+}
+
+.reveal--right {
+  transform: translateX(44px);
+}
+
+.reveal--scale {
+  transform: scale(0.9) translateY(12px);
+}
+
+.reveal--blur {
+  transform: translateY(16px);
+  filter: blur(10px);
+}
+
+/* pure fade — opacity only, no movement */
+.reveal--fade {
+  transform: none;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ── Intro fade for the nav on page load ───────────────────── */
+.intro-fade {
+  opacity: 0;
+  animation: fade-down 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Whole-page fade-in on first load ──────────────────────── */
+.page-intro {
+  animation: page-fade 1.1s ease forwards;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Hero line-mask entrance ───────────────────────────────── */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  /* keep serif descenders from being clipped by the mask */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.mask-line > span {
+  display: inline-block;
+  transform: translateY(115%);
+  animation: rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) forwards;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ── Marquee banner (always animating) ─────────────────────── */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── Animated underline for inline links ───────────────────── */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-bottom: 2px;
+}
+
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* ── Timeline ──────────────────────────────────────────────── */
+.timeline-dot {
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+  animation: pulse 3s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal--up,
+  .reveal--left,
+  .reveal--right,
+  .reveal--scale,
+  .reveal--blur {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  .intro-fade,
+  .page-intro {
+    opacity: 1;
+    animation: none;
+  }
+  .mask-line > span {
+    transform: none;
+    animation: none;
+  }
+  .timeline-dot {
+    animation: none;
+  }
 }
