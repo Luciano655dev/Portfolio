@@ -1,9 +1,11 @@
 import Image from "next/image";
 import CountUp from "@/components/CountUp";
+import CTA, { CTABand } from "@/components/CTA";
 import LocalTime from "@/components/LocalTime";
-import Magnetic from "@/components/Magnetic";
 import Parallax from "@/components/Parallax";
+import ProjectLogo from "@/components/ProjectLogo";
 import Reveal from "@/components/Reveal";
+import SocialIcon, { type SocialIconName } from "@/components/SocialIcon";
 import {
   getProfile,
   getRepos,
@@ -19,6 +21,7 @@ const FEATURED = [
   {
     repo: "daykeeper.app",
     title: "Daykeeper",
+    logo: "/Daykeeper-logo.png",
     role: "Founder · Design · Fullstack",
     description:
       "A journal-style social and calendar platform that turns days into memories. Web app, public API and docs, all built and shipped from scratch.",
@@ -31,8 +34,35 @@ const FEATURED = [
     ],
   },
   {
+    repo: "OneMoreGood",
+    title: "OneMoreGood",
+    logo: "/Onemoregood-logo.png",
+    role: "Founder · Fullstack",
+    description:
+      "A non-profit e-commerce that fundraises for small organizations by selling socks, handling storefront, checkout and fulfilment end to end.",
+    stack: ["TypeScript", "Next.js", "E-commerce"],
+    links: [
+      { label: "Live site", url: "https://onemoregood.org" },
+      { label: "Source", url: `${GITHUB_URL}/OneMoreGood` },
+    ],
+  },
+  {
+    repo: "BetterPomo",
+    title: "BetterPomo",
+    logo: "/Betterpomo-logo.jpg",
+    role: "Founder · Fullstack",
+    description:
+      "A pomodoro platform built for company: run focus sessions with friends in real time, then keep a record of the work you actually got done.",
+    stack: ["TypeScript", "Next.js", "Real-time"],
+    links: [
+      { label: "Live site", url: "https://betterpomo.com" },
+      { label: "Source", url: `${GITHUB_URL}/BetterPomo` },
+    ],
+  },
+  {
     repo: "HobbyASAP",
     title: "HobbyASAP",
+    logo: "/HobbyASAP-logo.png",
     role: "Founder · Fullstack",
     description:
       "An AI-powered platform that helps people learn any hobby as fast as possible, generating structured learning paths from a single prompt.",
@@ -40,18 +70,6 @@ const FEATURED = [
     links: [
       { label: "Live site", url: "https://hobbyasap.com" },
       { label: "Source", url: `${GITHUB_URL}/HobbyASAP` },
-    ],
-  },
-  {
-    repo: "OneMoreGood",
-    title: "OneMoreGood",
-    role: "Founder · Fullstack",
-    description:
-      "A non-profit e-commerce that fundraises for small organizations in Brazil — starting with Santa Terezinha, Paraíba — by selling socks.",
-    stack: ["TypeScript", "Next.js", "E-commerce"],
-    links: [
-      { label: "Live site", url: "https://onemoregood.org" },
-      { label: "Source", url: `${GITHUB_URL}/OneMoreGood` },
     ],
   },
 ] as const;
@@ -62,7 +80,7 @@ const TIMELINE = [
     year: "2018–2019",
     title: "Starting with games",
     description:
-      "Began learning programming at Super Geeks, where I built games, joined game jams, and participated in local competitions.",
+      "Learned to program by building games — shipping small titles, joining game jams, and competing locally.",
   },
   {
     year: "2020–2021",
@@ -80,13 +98,13 @@ const TIMELINE = [
     year: "2024",
     title: "Building Daykeeper",
     description:
-      "Started creating Daykeeper from scratch, my most complex project to date, while moving from Paraíba, Brazil to Orlando, Florida and beginning high school at Windermere Preparatory School.",
+      "Started creating Daykeeper from scratch — my most complex project to date — after relocating to Orlando, Florida.",
   },
   {
     year: "2025–2026",
-    title: "Software, startups, and college",
+    title: "Software and startups",
     description:
-      "Interned at Phoebus Tecnologia during both summers, continued expanding my portfolio with projects like OneMoreGood and HobbyASAP, and entered senior year while applying to top universities for computer science.",
+      "Interned at Phoebus Tecnologia across two summers and kept expanding my portfolio with products like OneMoreGood, BetterPomo, and HobbyASAP.",
   },
 ] as const;
 
@@ -134,24 +152,62 @@ const SKILLS = [
   {
     group: "Spoken",
     items: [
-      "Portuguese (native)",
       "English (fluent)",
+      "Portuguese (fluent)",
       "Spanish (basic)",
     ],
   },
 ] as const;
 
-const MARQUEE_ITEMS = [
-  "Daykeeper",
-  "HobbyASAP",
-  "OneMoreGood",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Python",
-  "MongoDB",
-  "PostgreSQL",
+/* Projects carry their logo and link through the marquee; tech is text-only. */
+const MARQUEE_ITEMS: { label: string; logo?: string; url?: string }[] = [
+  {
+    label: "Daykeeper",
+    logo: "/Daykeeper-logo.png",
+    url: "https://daykeeper.app",
+  },
+  {
+    label: "OneMoreGood",
+    logo: "/Onemoregood-logo.png",
+    url: "https://onemoregood.org",
+  },
+  {
+    label: "BetterPomo",
+    logo: "/Betterpomo-logo.jpg",
+    url: "https://betterpomo.com",
+  },
+  {
+    label: "HobbyASAP",
+    logo: "/HobbyASAP-logo.png",
+    url: "https://hobbyasap.com",
+  },
+  { label: "TypeScript" },
+  { label: "React" },
+  { label: "Next.js" },
+  { label: "Python" },
+  { label: "SQL Databases" },
+];
+
+const CONTACTS: {
+  label: string;
+  url: string;
+  icon: SocialIconName;
+  external?: boolean;
+}[] = [
+  { label: EMAIL, url: `mailto:${EMAIL}`, icon: "mail" },
+  { label: "GitHub", url: GITHUB_URL, icon: "github", external: true },
+  {
+    label: "X / Twitter",
+    url: "https://twitter.com/luciano655dev",
+    icon: "x",
+    external: true,
+  },
+  {
+    label: "Discord",
+    url: "https://discord.com/users/luciano655",
+    icon: "discord",
+    external: true,
+  },
 ];
 
 const LANGUAGE_COLORS: Record<string, string> = {
@@ -299,6 +355,9 @@ export default async function Home() {
           >
             GitHub ↗
           </a>
+          <CTA href={`mailto:${EMAIL}`} size="sm">
+            Get in touch
+          </CTA>
         </nav>
       </header>
 
@@ -346,14 +405,9 @@ export default async function Home() {
         </Reveal>
         <Reveal delay={460}>
           <div className="mt-10 flex flex-wrap items-center gap-6 font-mono text-sm">
-            <Magnetic>
-              <a
-                href={`mailto:${EMAIL}`}
-                className="link-reset group inline-block border border-foreground/80 px-5 py-3 transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-background"
-              >
-                Get in touch <ExternalArrow />
-              </a>
-            </Magnetic>
+            <CTA href={`mailto:${EMAIL}`} size="lg">
+              Get in touch
+            </CTA>
             <a
               href={GITHUB_URL}
               target="_blank"
@@ -374,14 +428,45 @@ export default async function Home() {
         <div className="marquee-track">
           {[0, 1].map((copy) => (
             <span key={copy} aria-hidden={copy === 1} className="flex shrink-0">
-              {MARQUEE_ITEMS.map((item) => (
-                <span
-                  key={item}
-                  className="mx-6 flex items-center gap-12 text-2xl font-medium tracking-tight text-muted"
-                >
-                  {item} <span className="text-accent">✦</span>
-                </span>
-              ))}
+              {MARQUEE_ITEMS.map((item) => {
+                const content = (
+                  <>
+                    {item.logo && (
+                      <Image
+                        src={item.logo}
+                        alt=""
+                        width={36}
+                        height={36}
+                        className="size-9 shrink-0 rounded-lg border border-line object-cover"
+                      />
+                    )}
+                    {item.label}
+                  </>
+                );
+
+                return (
+                  <span
+                    key={item.label}
+                    className="mx-6 flex items-center gap-4 text-2xl font-medium tracking-tight text-muted"
+                  >
+                    {item.url ? (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        /* The duplicate copy is aria-hidden — keep it off the tab order. */
+                        tabIndex={copy === 1 ? -1 : undefined}
+                        className="link-reset flex items-center gap-4 transition-colors duration-300 hover:text-accent"
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      content
+                    )}
+                    <span className="ml-8 text-accent">✦</span>
+                  </span>
+                );
+              })}
             </span>
           ))}
         </div>
@@ -427,19 +512,30 @@ export default async function Home() {
                   0{i + 1}
                 </span>
                 <div>
-                  <h3 className="text-2xl font-medium tracking-tight sm:text-3xl">
-                    <a
-                      href={project.links[0].url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="link-reset transition-colors duration-300 after:absolute after:inset-0 group-hover:text-accent"
-                    >
-                      {project.title}
-                    </a>
-                  </h3>
-                  <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted">
-                    {project.role}
-                  </p>
+                  {/* Logo sits beside the title and role together, not just the title. */}
+                  <div className="flex items-center gap-4">
+                    <ProjectLogo
+                      name={project.title}
+                      src={project.logo}
+                      size={56}
+                      className="transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div>
+                      <h3 className="text-2xl font-medium tracking-tight sm:text-3xl">
+                        <a
+                          href={project.links[0].url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="link-reset transition-colors duration-300 after:absolute after:inset-0 group-hover:text-accent"
+                        >
+                          {project.title}
+                        </a>
+                      </h3>
+                      <p className="mt-1 font-mono text-xs uppercase tracking-widest text-muted">
+                        {project.role}
+                      </p>
+                    </div>
+                  </div>
                   <p className="mt-4 max-w-xl leading-relaxed text-muted">
                     {project.description}
                   </p>
@@ -474,6 +570,16 @@ export default async function Home() {
             </Reveal>
           ))}
         </div>
+        <Reveal effect="scale" className="mt-20">
+          <CTABand
+            label="Your project, next on the list"
+            headline="I built every one of these from an empty folder."
+            accent="Yours could be next."
+            note="Bring the idea and I'll handle design, frontend, backend and shipping it."
+            action="Start a project"
+            href={`mailto:${EMAIL}?subject=Project%20enquiry`}
+          />
+        </Reveal>
       </section>
 
       {/* ── Open source ─────────────────────────────────────── */}
@@ -558,23 +664,26 @@ export default async function Home() {
             <MonoLabel>04 — About</MonoLabel>
           </Reveal>
           <div>
-<Reveal effect="blur">
-  <p className="text-2xl leading-snug tracking-tight sm:text-3xl">
-    I&apos;m a{" "}
-    <em className="font-serif italic text-accent">Brazilian</em>{" "}
-    full-stack developer based in Orlando, Florida, building products that turn
-    ideas into useful, real-world software.
-  </p>
-</Reveal>
+            <Reveal effect="blur">
+              <p className="text-2xl leading-snug tracking-tight sm:text-3xl">
+                I&apos;m a full-stack developer based in Orlando, Florida,
+                building products that turn ideas into{" "}
+                <em className="font-serif italic text-accent">
+                  useful, real-world software.
+                </em>
+              </p>
+            </Reveal>
 
-<Reveal delay={120}>
-  <p className="mt-8 max-w-xl leading-relaxed text-muted">
-    My work spans social platforms, e-commerce, AI experiments, freelance
-    websites, and full-stack products like Daykeeper.app, OneMoreGood.org, and
-    HobbyASAP.com. I am fluent in English and Portuguese, while also having a good Spanish understanding. I enjoy taking projects from concept to production, including
-    product design, APIs, databases, deployment, and documentation.
-  </p>
-</Reveal>
+            <Reveal delay={120}>
+              <p className="mt-8 max-w-xl leading-relaxed text-muted">
+                My work spans social platforms, e-commerce, AI experiments,
+                freelance websites, and full-stack products like Daykeeper,
+                OneMoreGood, BetterPomo and HobbyASAP. I enjoy taking projects
+                from concept to production — product design, APIs, databases,
+                deployment and documentation included.
+              </p>
+            </Reveal>
+
             <dl className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2">
               {SKILLS.map((skill, i) => (
                 <Reveal key={skill.group} delay={i * 80} effect="up">
@@ -606,47 +715,32 @@ export default async function Home() {
             <h2 className="mt-10 text-[clamp(2.25rem,6.5vw,5rem)] font-medium leading-tight tracking-tight">
               Have a project in mind?
               <br />
-              <a
-                href={`mailto:${EMAIL}`}
-                className="group font-serif italic font-normal text-accent underline decoration-1 underline-offset-8 transition-opacity hover:opacity-80"
-              >
-                Let&apos;s talk <ExternalArrow />
-              </a>
+              <em className="font-serif italic font-normal text-accent">
+                Let&apos;s talk.
+              </em>
             </h2>
           </Parallax>
+          <div className="mt-12">
+            <CTA href={`mailto:${EMAIL}`} size="lg">
+              Get in touch
+            </CTA>
+          </div>
         </Reveal>
         <Reveal delay={150}>
-          <div className="mt-16 flex flex-wrap gap-x-8 gap-y-3 font-mono text-sm text-muted">
-            <a
-              href={`mailto:${EMAIL}`}
-              className="link-underline text-muted transition-colors hover:text-foreground"
-            >
-              {EMAIL}
-            </a>
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-underline text-muted transition-colors hover:text-foreground"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://twitter.com/luciano655dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-underline text-muted transition-colors hover:text-foreground"
-            >
-              X / Twitter
-            </a>
-            <a
-              href="https://discord.com/users/luciano655"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-underline text-muted transition-colors hover:text-foreground"
-            >
-              Discord
-            </a>
+          <div className="mt-16 flex flex-wrap gap-x-8 gap-y-4 font-mono text-sm text-muted">
+            {CONTACTS.map((contact) => (
+              <a
+                key={contact.label}
+                href={contact.url}
+                {...(contact.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="link-underline flex items-center gap-2.5 text-muted transition-colors hover:text-accent"
+              >
+                <SocialIcon name={contact.icon} />
+                {contact.label}
+              </a>
+            ))}
           </div>
         </Reveal>
       </section>
