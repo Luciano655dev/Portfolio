@@ -1,8 +1,8 @@
-# luciano-website
+# Luciano655dev
 
 My personal portfolio — a single-page site that introduces who I am, the products I've founded, and the work I keep shipping. The open-source section is **live from the GitHub API**, so the site keeps itself up to date as I push new repositories.
 
-**Live:** [luciano655dev.netlify.app](https://luciano655dev.netlify.app) · **Me:** [@Luciano655dev](https://github.com/Luciano655dev)
+**Live:** [luciano655dev.vercel.app](https://luciano655dev.vercel.app) · **Me:** [@Luciano655dev](https://github.com/Luciano655dev)
 
 ---
 

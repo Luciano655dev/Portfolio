@@ -49,7 +49,7 @@ const FEATURED = [
   {
     repo: "BetterPomo",
     title: "BetterPomo",
-    logo: "/Betterpomo-logo.jpg",
+    logo: "/Betterpomo-logo.png",
     role: "Founder · Fullstack",
     description:
       "A pomodoro platform built for company: run focus sessions with friends in real time, then keep a record of the work you actually got done.",
@@ -173,7 +173,7 @@ const MARQUEE_ITEMS: { label: string; logo?: string; url?: string }[] = [
   },
   {
     label: "BetterPomo",
-    logo: "/Betterpomo-logo.jpg",
+    logo: "/Betterpomo-logo.png",
     url: "https://betterpomo.com",
   },
   {
@@ -312,7 +312,7 @@ export default async function Home() {
     { value: years, suffix: "+", label: "years building" },
     { value: profile.publicRepos, suffix: "", label: "public repositories" },
     { value: profile.followers, suffix: "", label: "GitHub followers" },
-    { value: 3, suffix: "", label: "products in production" },
+    { value: 4, suffix: "", label: "products in production" },
   ];
 
   return (
